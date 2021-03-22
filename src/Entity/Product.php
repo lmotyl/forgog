@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * @UniqueEntity("title")
  */
 class Product
 {
@@ -19,11 +22,13 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull()
      */
     private $title;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotNull()
      */
     private $price;
 
@@ -55,4 +60,14 @@ class Product
 
         return $this;
     }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->getId(),
+            'title' => $this->getTitle(),
+            'price' => $this->getPrice()
+        ];
+    }
+
 }

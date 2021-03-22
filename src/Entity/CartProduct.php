@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\CartProductsRepository;
+use App\Repository\CartProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=CartProductsRepository::class)
+ * @ORM\Entity(repositoryClass=CartProductRepository::class)
  */
-class CartProducts
+class CartProduct
 {
     /**
      * @ORM\Id
@@ -31,8 +32,16 @@ class CartProducts
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotNull()
+     * @Assert\LessThanOrEqual(10)
      */
     private $quantity;
+
+    public function __construct()
+    {
+        $this->quantity = 0;
+    }
+
 
     public function getId(): ?int
     {

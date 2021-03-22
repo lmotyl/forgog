@@ -6,6 +6,7 @@ use App\Repository\CartRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CartRepository::class)
@@ -20,9 +21,14 @@ class Cart
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=CartProducts::class, mappedBy="cart")
+     * @ORM\OneToMany(targetEntity=CartProduct::class, mappedBy="cart" ,cascade={"persist"})
+     * @Assert\Count(
+     *     max = 3,
+     *     maxMessage="Cart can have only 3 different products"
+     * )
      */
     private $cartProducts;
+
 
     public function __construct()
     {
@@ -34,15 +40,23 @@ class Cart
         return $this->id;
     }
 
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->getId()
+        ];
+    }
+
     /**
-     * @return Collection|CartProducts[]
+     * @return Collection|CartProduct[]
      */
     public function getCartProducts(): Collection
     {
         return $this->cartProducts;
     }
 
-    public function addCartProduct(CartProducts $cartProduct): self
+    public function addCartProduct(CartProduct $cartProduct): self
     {
         if (!$this->cartProducts->contains($cartProduct)) {
             $this->cartProducts[] = $cartProduct;
@@ -52,7 +66,7 @@ class Cart
         return $this;
     }
 
-    public function removeCartProduct(CartProducts $cartProduct): self
+    public function removeCartProduct(CartProduct $cartProduct): self
     {
         if ($this->cartProducts->removeElement($cartProduct)) {
             // set the owning side to null (unless already changed)
@@ -63,4 +77,5 @@ class Cart
 
         return $this;
     }
+
 }

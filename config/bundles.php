@@ -7,4 +7,8 @@ return [
     Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
+    FOS\RestBundle\FOSRestBundle::class => ['dev' => true],
+    JMS\SerializerBundle\JMSSerializerBundle::class => ['dev' => true],
+    Nelmio\ApiDocBundle\NelmioApiDocBundle::class => ['dev' => true],
+    Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle::class => ['all' => true],
 ];
